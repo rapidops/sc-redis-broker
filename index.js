@@ -167,7 +167,11 @@ SCSimpleBroker.prototype.bind = function (socket, callback) {
     var err = 'Failed to validate - Socket did not have required id field';
     callback(err, socket, true);
   } else {
-    socket.on('#subscribe', function (channel, res) {
+    socket.on('#subscribe', function (channelOptions, res) {
+      if (!channelOptions) {
+        channelOptions = {};
+      }
+      var channel = channelOptions.channel;
       if (self._channelSubscribers[channel] == null) {
         self._channelSubscribers[channel] = {};
       }
