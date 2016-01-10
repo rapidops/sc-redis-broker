@@ -1,6 +1,16 @@
 var EventEmitter = require('events').EventEmitter;
 var SCChannel = require('sc-channel').SCChannel;
 
+var isEmpty = function (obj) {
+  var i;
+  for (i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      return false;
+    }
+  }
+  return true;
+};
+
 var SimpleExchange = function (broker) {
   this._broker = broker;
   this._channels = {};
@@ -160,35 +170,22 @@ SCSimpleBroker.prototype.exchange = function () {
   return this._exchangeClient;
 };
 
-SCSimpleBroker.prototype.bind = function (socket, callback) {
-  var self = this;
-
-  if (socket.id == null) {
-    var err = 'Failed to validate - Socket did not have required id field';
-    callback(err, socket, true);
-  } else {
-    socket.on('#subscribe', function (channelOptions, res) {
-      if (!channelOptions) {
-        channelOptions = {};
-      }
-      var channel = channelOptions.channel;
-      if (self._channelSubscribers[channel] == null) {
-        self._channelSubscribers[channel] = {};
-      }
-      self._channelSubscribers[channel][socket.id] = socket;
-      res();
-    });
-
-    socket.on('#unsubscribe', function (channel, res) {
-      res();
-    });
-
-    callback(null, socket);
+SCSimpleBroker.prototype.subscribeSocket = function (socket, channel, callback) {
+  if (this._channelSubscribers[channel] == null) {
+    this._channelSubscribers[channel] = {};
   }
+  this._channelSubscribers[channel][socket.id] = socket;
+  callback && callback();
 };
 
-SCSimpleBroker.prototype.unbind = function (socket, callback) {
-  callback(null, socket);
+SCSimpleBroker.prototype.unsubscribeSocket = function (socket, channel, callback) {
+  if (this._channelSubscribers[channel]) {
+    delete this._channelSubscribers[channel][socket.id];
+    if (isEmpty(this._channelSubscribers[channel])) {
+      delete this._channelSubscribers[channel];
+    }
+  }
+  callback && callback();
 };
 
 SCSimpleBroker.prototype.publish = function (channelName, data, callback) {
