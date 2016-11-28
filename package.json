@@ -14,6 +14,7 @@
   "author": "Jonathan Gros-Dubois <grosjona@yahoo.com.au>",
   "license": "MIT",
   "dependencies": {
-    "sc-channel": "1.0.x"
+    "sc-channel": "1.0.x",
+    "redis" : "^2.6.3"
   }
 }
