@@ -208,13 +208,14 @@ SCSimpleBroker.prototype.subscribeSocket = function (socket, channel, callback) 
 SCSimpleBroker.prototype.unsubscribeSocket = function (socket, channel, callback) {
 
     console.log('unsubscribeSocket :: ');
+    console.log('unsubscribeSocket socket :: ' + socket.id);
+    console.log('unsubscribeSocket channel :: ' + channel);
 
-    // Need to think
-    //subClient.unsubscribe(channel);
-
+    // Check for unscribe channel (Note : Unsubscribe channel when channel count is 0)
     if (this._channelSubscribers[channel]) {
         delete this._channelSubscribers[channel][socket.id];
         if (isEmpty(this._channelSubscribers[channel])) {
+            subClient.unsubscribe(channel);
             delete this._channelSubscribers[channel];
         }
     }
