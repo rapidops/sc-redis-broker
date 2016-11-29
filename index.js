@@ -32,6 +32,7 @@ var SimpleExchange = function (broker) {
 
     subClient.on('message', function (channel, message) {
         console.log('On Message : ' + JSON.parse(message));
+        console.log('Message sent on channel : ' + channel);
         broker.publish(channel, JSON.parse(message));
     });
     this._broker = broker;
