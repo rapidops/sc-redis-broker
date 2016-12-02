@@ -1,2 +1,2 @@
 # sc-simple-broker
-Simple broker engine for socketcluster-server
+Simple broker engine for socketcluster-server with redis server (Pub/Sub mechanism)
