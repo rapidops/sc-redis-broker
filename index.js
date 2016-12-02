@@ -8,6 +8,8 @@ var brokerOptions = {
     port: config.redis.port
 }
 
+
+// Connect subscribeClient and pulishClient to redis
 var subClient = redis.createClient(brokerOptions.port, brokerOptions.host, brokerOptions);
 var pubClient = redis.createClient(brokerOptions.port, brokerOptions.host, brokerOptions);
 
@@ -30,6 +32,7 @@ var isEmpty = function (obj) {
 
 var SimpleExchange = function (broker) {
 
+    // Publish message on channel
     subClient.on('message', function (channel, message) {
         console.log('On Message : ' + JSON.parse(message));
         console.log('Message sent on channel : ' + channel);
@@ -208,11 +211,9 @@ SCSimpleBroker.prototype.subscribeSocket = function (socket, channel, callback) 
 
 SCSimpleBroker.prototype.unsubscribeSocket = function (socket, channel, callback) {
 
-    console.log('unsubscribeSocket :: ');
-    console.log('unsubscribeSocket socket :: ' + socket.id);
-    console.log('unsubscribeSocket channel :: ' + channel);
 
-    // Check for unscribe channel (Note : Unsubscribe channel when channel count is 0)
+
+    // Check for unsubscribe channel (Note : Unsubscribe channel when channel count is 0)
     if (this._channelSubscribers[channel]) {
         delete this._channelSubscribers[channel][socket.id];
         if (isEmpty(this._channelSubscribers[channel])) {
