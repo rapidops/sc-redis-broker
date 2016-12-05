@@ -1,7 +1,7 @@
 {
-  "name": "sc-simple-broker",
-  "version": "1.2.0",
-  "description": "Simple broker engine for socketcluster-server",
+  "name": "sc-redis-broker",
+  "version": "1.2.1",
+  "description": "Redis broker engine for socketcluster-server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
