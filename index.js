@@ -5,7 +5,8 @@ var config = require('./config.json');
 var options = {};
 var brokerOptions = {
     host: process.env.SC_BROKER_REDIS_HOST || config.redis.host,
-    port: process.env.SC_BROKER_REDIS_PORT || config.redis.port
+    port: process.env.SC_BROKER_REDIS_PORT || config.redis.port,
+     db: process.env.SC_BROKER_REDIS_DB || null
 }
 
 
