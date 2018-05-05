@@ -6,7 +6,8 @@ var options = {};
 var brokerOptions = {
     host: process.env.SC_BROKER_REDIS_HOST || config.redis.host,
     port: process.env.SC_BROKER_REDIS_PORT || config.redis.port,
-     db: process.env.SC_BROKER_REDIS_DB || null
+    db: process.env.SC_BROKER_REDIS_DB || null,
+    password: process.env.SC_BROKER_REDIS_PASSWORD
 }
 
 
